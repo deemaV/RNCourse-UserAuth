@@ -5,12 +5,16 @@ import { StatusBar } from "expo-status-bar";
 import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
+import BookLeave from "./screens/BookLeave";
+import EditLeave from "./screens/EditLeave";
+import AuthLeave from "./screens/AuthLeave"
 import { Colors } from "./constants/styles";
 import AuthContextProvider, { AuthContext } from "./store/auth-context";
 import { useContext, useEffect, useState } from "react";
 import IconButton from "./components/ui/IconButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppLoading from "expo-app-loading";
+import { Feather } from "@expo/vector-icons";
 
 const Stack = createNativeStackNavigator();
 
@@ -18,7 +22,7 @@ function AuthStack() {
     return (
         <Stack.Navigator
             screenOptions={{
-                headerStyle: { backgroundColor: Colors.primary500 },
+                headerStyle: { backgroundColor: Colors.primary800 },
                 headerTintColor: "white",
                 contentStyle: { backgroundColor: Colors.primary100 },
             }}
@@ -34,24 +38,40 @@ function AuthenticatedStack() {
     return (
         <Stack.Navigator
             screenOptions={{
-                headerStyle: { backgroundColor: Colors.primary500 },
+                headerStyle: { backgroundColor: Colors.primary800 },
                 headerTintColor: "white",
                 contentStyle: { backgroundColor: Colors.primary100 },
+                headerTitleAlign:"center",
+                headerRight: ({ tintColor }) => (
+                    <IconButton
+                        icon="log-out"
+                        color={tintColor}
+                        size={24}
+                        onPress={authCtx.logout}
+                    />
+                )
             }}
         >
             <Stack.Screen
                 name="Welcome"
                 component={WelcomeScreen}
                 options={{
-                    headerRight: ({ tintColor }) => (
-                        <IconButton
-                            icon="exit"
-                            color={tintColor}
-                            size={24}
-                            onPress={authCtx.logout}
-                        />
-                    ),
+                    headerLeft: ({ tintColor }) => {
+                        <Feather name="sun" color={tintColor} size={24} />
+                    }
                 }}
+            />
+            <Stack.Screen 
+                name="BookLeave"
+                component={BookLeave}
+            />
+            <Stack.Screen 
+                name="EditLeave"
+                component={EditLeave}
+            />
+            <Stack.Screen 
+                name="AuthLeave"
+                component={AuthLeave}
             />
         </Stack.Navigator>
     );

@@ -2,12 +2,24 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { AuthContext } from "../store/auth-context";
+import IconTextButton from "../components/ui/IconTextButton";
+import {Colors} from "../constants/styles"
 
-function WelcomeScreen() {
+function WelcomeScreen({navigation}) {
     const [fetchedMessage, setFetchedMessage] = useState("");
 
     const authCtx = useContext(AuthContext);
     const token = authCtx.token;
+
+    function bookLeaveHandler() {
+        navigation.navigate("BookLeave")
+    }
+    function editLeaveHandler() {
+        navigation.navigate("EditLeave")
+    }
+    function authLeaveHandler() {
+        navigation.navigate("AuthLeave")
+    }
 
     useEffect(() => {
         axios
@@ -23,8 +35,17 @@ function WelcomeScreen() {
     return (
         <View style={styles.rootContainer}>
             <Text style={styles.title}>Welcome!</Text>
-            <Text>You authenticated successfully!</Text>
+            <Text style={{marginBottom:8}}>You authenticated successfully!</Text>
             <Text>{fetchedMessage}</Text>
+            <IconTextButton size={24} icon="briefcase" color={Colors.primary500} onPress={bookLeaveHandler}>
+                Book Leave
+            </IconTextButton>
+            <IconTextButton size={24} icon="edit" color={Colors.primary500} onPress={editLeaveHandler}>
+                Edit Current Leave
+            </IconTextButton>
+            <IconTextButton size={24} icon="user-check" color={Colors.primary500} onPress={authLeaveHandler}>
+                Authorise Leave
+            </IconTextButton>
         </View>
     );
 }

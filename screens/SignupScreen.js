@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import { View, StyleSheet } from "react-native";
 import AuthContent from "../components/Auth/AuthContent";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 import { AuthContext } from "../store/auth-context";
@@ -12,8 +13,8 @@ function SignupScreen() {
     async function signupHandler({ email, password }) {
         setISAuthenticating(true);
         try {
-            const token = await createUser(email, password);
-            authCtx.authenticate(token);
+            const response = await createUser(email, password);
+            authCtx.authenticate(response.data.idToken);
         } catch (error) {
             alert("Authentication failed - Please check your input");
             setISAuthenticating(false);
@@ -24,7 +25,18 @@ function SignupScreen() {
         return <LoadingOverlay message="Creating user..." />;
     }
 
-    return <AuthContent onAuthenticate={signupHandler} />;
+    return (
+        <View style={styles.container}>
+            <AuthContent onAuthenticate={signupHandler} />
+        </View>
+    );
 }
 
 export default SignupScreen;
+
+const styles = StyleSheet.create({
+    container: {
+        flex:1,
+        justifyContent:"center"
+    }
+})

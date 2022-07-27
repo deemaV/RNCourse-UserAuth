@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import { View, StyleSheet } from "react-native";
 
 import AuthContent from "../components/Auth/AuthContent";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
@@ -13,8 +14,9 @@ function LoginScreen() {
     async function loginHandler({ email, password }) {
         setISAuthenticating(true);
         try {
-            const token = await login(email, password);
-            authCtx.authenticate(token);
+            const response = await login(email, password);
+            authCtx.authenticate(response.data.idToken);
+            authCtx.emailFunc(response.data.email);
         } catch (error) {
             alert("Authentication failed - Please check your credentials");
             setISAuthenticating(false);
@@ -24,7 +26,18 @@ function LoginScreen() {
         return <LoadingOverlay message="Logging you in..." />;
     }
 
-    return <AuthContent isLogin onAuthenticate={loginHandler} />;
+    return (
+        <View style={styles.container}>
+            <AuthContent isLogin onAuthenticate={loginHandler} />
+        </View>
+    );
 }
 
 export default LoginScreen;
+
+const styles = StyleSheet.create({
+    container: {
+        flex:1,
+        justifyContent:"center"
+    },
+});
