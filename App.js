@@ -58,20 +58,24 @@ function AuthenticatedStack() {
                 options={{
                     headerLeft: ({ tintColor }) => {
                         <Feather name="sun" color={tintColor} size={24} />
-                    }
+                    },
+                    title: "Home Page"
                 }}
             />
             <Stack.Screen 
                 name="BookLeave"
                 component={BookLeave}
+                options={{title: "Book Leave"}}
             />
             <Stack.Screen 
                 name="EditLeave"
                 component={EditLeave}
+                options={{title: "Edit Leave"}}
             />
             <Stack.Screen 
                 name="AuthLeave"
                 component={AuthLeave}
+                options={{title: "Authorise Leave"}}
             />
         </Stack.Navigator>
     );

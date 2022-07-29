@@ -9,16 +9,15 @@ function LeaveItem({ id, startDate, endDate, totalDays }) {
     const fullEmail = authCtx.email;
     const userEmail = fullEmail.split(".").join("");
     const leaveRef = userEmail + "/" + id
-    console.log(leaveRef)
     
     function pressHandler(database, leaveRef) {
-        console.log(leaveRef)
+        console.log("Deleted leave in location",leaveRef)
         set(ref(database, leaveRef), null);
     }
 
     return (
         <Pressable
-            onPress={pressHandler}
+            onPress={() => pressHandler(database, leaveRef)}
             style={({ pressed }) => pressed && styles.pressed}
         >
             <View style={styles.container}>
@@ -45,9 +44,12 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
         alignItems: "center",
+        justifyContent:"space-between",
         backgroundColor: "white",
         borderRadius: 8,
         marginVertical: 8,
+        borderColor: "#D48166",
+        borderWidth: 2,
     },
     dateContainer: {
         flexDirection: "column",

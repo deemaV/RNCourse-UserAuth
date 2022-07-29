@@ -22,10 +22,4 @@ const database = getDatabase(app);
 const auth = getAuth(app);
 const user = auth.currentUser
 
-if (user !== null) {
-  console.log(user.uid)
-} else {
-  console.log("No user signed in")
-}
-
 export {app, database, user};
